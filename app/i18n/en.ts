@@ -32,6 +32,7 @@ const en = {
   },
   loginScreen: {
     signIn: "Sign In",
+    signUp: "Sign Up",
     enterDetails:
       "Enter your details below to unlock top secret info. You'll never guess what we've got waiting. Or maybe you will; it's not rocket science here.",
     emailFieldLabel: "Email",
@@ -40,6 +41,8 @@ const en = {
     passwordFieldPlaceholder: "Super secret password here",
     tapToSignIn: "Tap to sign in!",
     hint: "Hint: you can use any email address and your favorite password :)",
+    firstName: "First Name",
+    lastName: "Last Name",
   },
   demoNavigator: {
     componentsTab: "Components",

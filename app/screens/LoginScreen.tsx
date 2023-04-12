@@ -9,24 +9,20 @@ import { colors, spacing } from "../theme"
 interface LoginScreenProps extends AppStackScreenProps<"Login"> {}
 
 export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen(_props) {
+  const lastNameInput = useRef<TextInput>()
+  const emailInput = useRef<TextInput>()
+
   const authPasswordInput = useRef<TextInput>()
 
   const [authPassword, setAuthPassword] = useState("")
+  const [firstName, setFirstName] = useState("")
+  const [lastName, setLastName] = useState("")
   const [isAuthPasswordHidden, setIsAuthPasswordHidden] = useState(true)
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [attemptsCount, setAttemptsCount] = useState(0)
   const {
     authenticationStore: { authEmail, setAuthEmail, setAuthToken, validationError },
   } = useStores()
-
-  useEffect(() => {
-    // Here is where you could fetch credentials from keychain or storage
-    // and pre-fill the form fields.
-    setAuthEmail("ignite@infinite.red")
-    setAuthPassword("ign1teIsAwes0m3")
-  }, [])
-
-  const error = isSubmitted ? validationError : ""
 
   function login() {
     setIsSubmitted(true)
@@ -50,7 +46,7 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen(_
         return (
           <Icon
             icon={isAuthPasswordHidden ? "view" : "hidden"}
-            color={colors.palette.neutral800}
+            color={colors.palette.black}
             containerStyle={props.style}
             size={20}
             onPress={() => setIsAuthPasswordHidden(!isAuthPasswordHidden)}
@@ -73,11 +69,33 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen(_
       contentContainerStyle={$screenContentContainer}
       safeAreaEdges={["top", "bottom"]}
     >
-      <Text testID="login-heading" tx="loginScreen.signIn" preset="heading" style={$signIn} />
-      <Text tx="loginScreen.enterDetails" preset="subheading" style={$enterDetails} />
-      {attemptsCount > 2 && <Text tx="loginScreen.hint" size="sm" weight="light" style={$hint} />}
+      <Text testID="login-heading" tx="loginScreen.signUp" preset="heading" style={$signIn} />
 
       <TextField
+        value={firstName}
+        onChangeText={setFirstName}
+        containerStyle={$textField}
+        autoCapitalize="words"
+        autoComplete="name"
+        autoCorrect={false}
+        placeholderTx="loginScreen.firstName"
+        onSubmitEditing={() => lastNameInput.current?.focus()}
+      />
+
+      <TextField
+        ref={lastNameInput}
+        value={lastName}
+        onChangeText={setLastName}        
+        autoCapitalize="words"
+        autoComplete="name"
+        containerStyle={$textField}
+        autoCorrect={false}
+        placeholderTx="loginScreen.lastName"
+        onSubmitEditing={() => emailInput.current?.focus()}
+      />
+
+      <TextField
+        ref={emailInput}
         value={authEmail}
         onChangeText={setAuthEmail}
         containerStyle={$textField}
@@ -85,10 +103,7 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen(_
         autoComplete="email"
         autoCorrect={false}
         keyboardType="email-address"
-        labelTx="loginScreen.emailFieldLabel"
-        placeholderTx="loginScreen.emailFieldPlaceholder"
-        helper={error}
-        status={error ? "error" : undefined}
+        placeholderTx="loginScreen.emailFieldLabel"
         onSubmitEditing={() => authPasswordInput.current?.focus()}
       />
 
@@ -101,8 +116,7 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen(_
         autoComplete="password"
         autoCorrect={false}
         secureTextEntry={isAuthPasswordHidden}
-        labelTx="loginScreen.passwordFieldLabel"
-        placeholderTx="loginScreen.passwordFieldPlaceholder"
+        placeholderTx="loginScreen.passwordFieldLabel"
         onSubmitEditing={login}
         RightAccessory={PasswordRightAccessory}
       />
@@ -111,9 +125,10 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen(_
         testID="login-button"
         tx="loginScreen.tapToSignIn"
         style={$tapButton}
-        preset="reversed"
+        preset="default"
         onPress={login}
       />
+      <Text style={$text} size="md" >You have an account?  {<Text onPress={() => {console.log("Login")}} style={$text} preset="bold" size="md" >Log-in</Text>}</Text>
     </Screen>
   )
 })
@@ -124,16 +139,8 @@ const $screenContentContainer: ViewStyle = {
 }
 
 const $signIn: TextStyle = {
-  marginBottom: spacing.small,
-}
-
-const $enterDetails: TextStyle = {
-  marginBottom: spacing.large,
-}
-
-const $hint: TextStyle = {
-  color: colors.tint,
-  marginBottom: spacing.medium,
+  marginBottom: spacing.extraLarge,
+  alignSelf: "center",
 }
 
 const $textField: ViewStyle = {
@@ -141,7 +148,11 @@ const $textField: ViewStyle = {
 }
 
 const $tapButton: ViewStyle = {
-  marginTop: spacing.extraSmall,
+  marginTop: 130,
 }
 
-// @demo remove-file
+const $text: TextStyle = {
+  alignSelf: "center",
+  marginTop: spacing.large,
+}
+

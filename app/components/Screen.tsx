@@ -6,6 +6,7 @@ import {
   KeyboardAvoidingViewProps,
   LayoutChangeEvent,
   Platform,
+  SafeAreaView,
   ScrollView,
   ScrollViewProps,
   StyleProp,
@@ -200,22 +201,21 @@ export function Screen(props: ScreenProps) {
   const $containerInsets = useSafeAreaInsetsStyle(safeAreaEdges)
 
   return (
-    <View style={[$containerStyle, { backgroundColor }, $containerInsets]}>
+    <SafeAreaView style={[$containerStyle, { backgroundColor }, $containerInsets]}>
       <StatusBar style={statusBarStyle} {...StatusBarProps} />
-
-      <KeyboardAvoidingView
-        behavior={isIos ? "padding" : undefined}
-        keyboardVerticalOffset={keyboardOffset}
-        {...KeyboardAvoidingViewProps}
-        style={[$keyboardAvoidingViewStyle, KeyboardAvoidingViewProps?.style]}
-      >
-        {isNonScrolling(props.preset) ? (
-          <ScreenWithoutScrolling {...props} />
-        ) : (
-          <ScreenWithScrolling {...props} />
-        )}
-      </KeyboardAvoidingView>
-    </View>
+        <KeyboardAvoidingView
+          behavior={isIos ? "padding" : undefined}
+          keyboardVerticalOffset={keyboardOffset}
+          {...KeyboardAvoidingViewProps}
+          style={[$keyboardAvoidingViewStyle, KeyboardAvoidingViewProps?.style]}
+        >
+          {isNonScrolling(props.preset) ? (
+            <ScreenWithoutScrolling {...props} />
+          ) : (
+            <ScreenWithScrolling {...props} />
+          )}
+        </KeyboardAvoidingView>
+    </SafeAreaView>
   )
 }
 
