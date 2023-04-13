@@ -1,7 +1,7 @@
 import React from "react"
 import { View, ViewStyle } from "react-native"
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
-import { ActiveProjectDetailScreen } from "app/screens/DemoShowroomScreen/ActiveProjectDetailScreen"
+import { ActiveProjectDetailScreen } from "app/screens/home/ActiveProjectDetailScreen"
 import RootTabNavigator from "./RootTabNavigator"
 
 export type AuthenticatedNavigatorParamList = {

@@ -7,7 +7,7 @@ import {
 import { Header, Screen, Text } from "../../components"
 import { colors, spacing } from "../../theme"
 import { RootTabScreenProps,  } from "app/navigators"
-import ActiveProject from "../DemoShowroomScreen/ActiveProject"
+import ActiveProject from "./components/ActiveProject"
 
 const activeProjects = [
   {
