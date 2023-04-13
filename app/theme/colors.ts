@@ -7,7 +7,8 @@ const palette = {
   black: "#120E21",
   white: "#FFFFFF",
   angry: "#F2D6CD",
-  grey: "#99879D",  
+  grey: "#99879D",
+  pink: "#FBEAFF",
   overlay20: "rgba(25, 16, 21, 0.2)",
   overlay50: "rgba(25, 16, 21, 0.5)",
 } as const
