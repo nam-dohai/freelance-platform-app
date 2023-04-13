@@ -5,6 +5,7 @@ import { ActiveProjectDetailScreen } from "app/screens/home/ActiveProjectDetailS
 import { ProjectDetailScreen } from "app/screens/search/ProjectDetailScreen"
 import RootTabNavigator from "./RootTabNavigator"
 import { PropositionScreen } from "app/screens/search/PropositionScreen"
+import { ChatScreen } from "app/screens/chat/ChatScreen"
 
 export type AuthenticatedNavigatorParamList = {
   RootTab: undefined
@@ -38,6 +39,9 @@ export type AuthenticatedNavigatorParamList = {
       status: string
     }
   }
+  Chat: {
+    conversation: any;
+  }
 }
 
 const Stack = createNativeStackNavigator<AuthenticatedNavigatorParamList>()
@@ -50,6 +54,7 @@ function AuthenticatedNavigator() {
         <Stack.Screen name="ActiveProjectDetail" component={ActiveProjectDetailScreen} />
         <Stack.Screen name="ProjectDetail" component={ProjectDetailScreen} />
         <Stack.Screen name="Proposition" component={PropositionScreen} />
+        <Stack.Screen name="Chat" component={ChatScreen} />
       </Stack.Navigator>
     </View>
   )

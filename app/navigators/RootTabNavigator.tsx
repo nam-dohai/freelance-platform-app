@@ -8,12 +8,13 @@ import { AppStackParamList, AppStackScreenProps } from './AppNavigator'
 import { HomeScreen } from 'app/screens/home'
 import { SearchScreen } from 'app/screens/search'
 import { Octicons, Ionicons, FontAwesome5 } from '@expo/vector-icons'
+import { MessagesScreen } from 'app/screens/chat'
 
 
 export type RootTabParamList = {
   Home: undefined
   Search: { queryIndex?: string; itemIndex?: string }
-  Chat: undefined
+  Conversation: undefined
   Profile: undefined
 }
 
@@ -68,8 +69,8 @@ function RootTabNavigator() {
       />
 
       <Tab.Screen
-        name="Chat"
-        component={HomeScreen}
+        name="Conversation"
+        component={MessagesScreen}
         options={{
           tabBarShowLabel: false,
           tabBarIcon: ({ focused }) => (
