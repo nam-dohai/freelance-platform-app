@@ -7,6 +7,7 @@ import { TextStyle, ViewStyle } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { AppStackParamList, AppStackScreenProps } from './AppNavigator'
 import { HomeScreen } from 'app/screens/home/HomeScreen'
+import { Octicons, Ionicons, FontAwesome5 } from '@expo/vector-icons'
 
 
 export type RootTabParamList = {
@@ -37,7 +38,7 @@ function RootTabNavigator() {
       screenOptions={{
         headerShown: false,
         tabBarHideOnKeyboard: true,
-        tabBarStyle: [$tabBar, { height: bottom + 70 }],
+        tabBarStyle: [$tabBar, { height: bottom + 50 }],
         tabBarActiveTintColor: colors.text,
         tabBarInactiveTintColor: colors.text,
         tabBarLabelStyle: $tabBarLabel,
@@ -50,7 +51,7 @@ function RootTabNavigator() {
         options={{
           tabBarShowLabel: false,
           tabBarIcon: ({ focused }) => (
-            <Icon icon="components" color={focused ? colors.tint : 'rgba(147, 120, 255, 0.3)' } size={30} />
+            <Octicons name="apps" color={focused ? colors.tint : 'rgba(147, 120, 255, 0.3)' } size={30} />
           ),
         }}
       />
@@ -61,7 +62,7 @@ function RootTabNavigator() {
         options={{
           tabBarShowLabel: false,
           tabBarIcon: ({ focused }) => (
-            <Icon icon="components" color={focused ? colors.tint : 'rgba(147, 120, 255, 0.3)' } size={30} />
+            <Octicons name="search" color={focused ? colors.tint : 'rgba(147, 120, 255, 0.3)' } size={30} />
           ),
         }}
       />
@@ -72,7 +73,7 @@ function RootTabNavigator() {
         options={{
           tabBarShowLabel: false,
           tabBarIcon: ({ focused }) => (
-            <Icon icon="components" color={focused ? colors.tint : 'rgba(147, 120, 255, 0.3)' } size={30} />
+            <Ionicons name="chatbox-outline" color={focused ? colors.tint : 'rgba(147, 120, 255, 0.3)' } size={30} />
           ),
         }}
       />
@@ -83,7 +84,7 @@ function RootTabNavigator() {
         options={{
           tabBarShowLabel: false,
           tabBarIcon: ({ focused }) => (
-            <Icon icon="components" color={focused ? colors.tint : 'rgba(147, 120, 255, 0.3)' } size={30} />
+            <FontAwesome5 name="user-circle" color={focused ? colors.tint : 'rgba(147, 120, 255, 0.3)' } size={30} />
           ),
         }}
       />
@@ -94,8 +95,10 @@ function RootTabNavigator() {
 export default RootTabNavigator
 
 const $tabBar: ViewStyle = {
-  backgroundColor: colors.background,
+  backgroundColor: colors.palette.white,
   borderTopColor: colors.transparent,
+  borderColor: "#FBEEFF",
+  borderWidth: 0.6,
 }
 
 const $tabBarItem: ViewStyle = {
