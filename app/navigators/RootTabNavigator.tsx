@@ -1,12 +1,12 @@
 import { BottomTabScreenProps, createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { CompositeScreenProps } from '@react-navigation/native'
-import { Icon } from 'app/components'
 import { colors, spacing, typography } from 'app/theme'
 import React from 'react'
 import { TextStyle, ViewStyle } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { AppStackParamList, AppStackScreenProps } from './AppNavigator'
-import { HomeScreen } from 'app/screens/home/HomeScreen'
+import { HomeScreen } from 'app/screens/home'
+import { SearchScreen } from 'app/screens/search'
 import { Octicons, Ionicons, FontAwesome5 } from '@expo/vector-icons'
 
 
@@ -58,7 +58,7 @@ function RootTabNavigator() {
 
       <Tab.Screen
         name="Search"
-        component={HomeScreen}
+        component={SearchScreen}
         options={{
           tabBarShowLabel: false,
           tabBarIcon: ({ focused }) => (

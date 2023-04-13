@@ -32,7 +32,7 @@ export const HomeScreen: FC<RootTabScreenProps<"Home">> =
   function HomeScreen(_props) {
     return (
       <Screen preset="fixed" safeAreaEdges={["top"]} contentContainerStyle={$screenContainer}>
-      <Header safeAreaEdges={[]} leftIconColor={colors.palette.grey}/>
+      {/* <Header safeAreaEdges={[]} leftIconColor={colors.palette.grey}/> */}
         <View style={$bodyContainer}>
           <Text size="xxl" preset="bold">
             Feed

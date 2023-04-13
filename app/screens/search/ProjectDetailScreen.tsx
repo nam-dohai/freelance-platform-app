@@ -1,29 +1,30 @@
-import React, { FC } from "react"
-import { Image, ImageStyle, TextStyle, View, ViewStyle } from "react-native"
-import { Header, Screen, Text } from "app/components"
-import { colors, spacing } from "app/theme"
-import { AuthenticatedNavigatorParamList, goBack } from "app/navigators"
 import { StackScreenProps } from "@react-navigation/stack"
+import { Button, Header, Screen, Text } from "app/components"
+import { AuthenticatedNavigatorParamList, goBack, navigate } from "app/navigators"
+import { colors, spacing } from "app/theme"
+import React, { FC, useCallback } from "react"
+import { Image, ImageStyle, TextStyle, View, ViewStyle } from "react-native"
 
-export const ActiveProjectDetailScreen: FC<
-  StackScreenProps<AuthenticatedNavigatorParamList, "ActiveProjectDetail">
-> = function ActiveProjectDetailScreen({ route }) {
+export const ProjectDetailScreen: FC<
+  StackScreenProps<AuthenticatedNavigatorParamList, "ProjectDetail">
+> = function ProjectDetailScreen({ route }) {
   const { params } = route
   const { project } = params
 
-  const tags = project.tags
+  const makeAProposition = useCallback(() => {
+    navigate("Proposition", {
+      project,
+    })
+  }, [])
+
   return (
     <Screen preset="fixed" safeAreaEdges={["top"]} contentContainerStyle={$screenContainer}>
-      <Header safeAreaEdges={[]} leftIcon="back" leftIconColor={colors.palette.grey} onLeftPress={goBack}/>
-      <View style={$deadlineBanner}>
-        <Text size="md" style={$deadlineText}>
-          You are in charge of this project
-        </Text>
-        <Text size="xxs" style={$deadlineText}>
-          Deadline 28/03/2020
-        </Text>
-      </View>
-
+      <Header
+        safeAreaEdges={[]}
+        leftIcon="back"
+        leftIconColor={colors.palette.grey}
+        onLeftPress={goBack}
+      />
       <View style={$bodyContainer}>
         <View style={$row}>
           <Image
@@ -46,19 +47,36 @@ export const ActiveProjectDetailScreen: FC<
           {project.description}
         </Text>
 
-        <View style={[$row, { marginTop: spacing.extraLarge }]}>
-          {tags.length > 0 &&
-            tags.map((tag, index) => {
+        <View style={$row}>
+          <Text
+            size="xs"
+            style={{ marginTop: spacing.extraSmall, color: colors.palette.grey, flex: 1 }}
+          >
+            16 propositions
+          </Text>
+          <Text size="md" style={{ color: colors.palette.primary }} preset="bold">
+            $ 2400
+          </Text>
+        </View>
+        <View style={[$row, { marginTop: spacing.large }]}>
+          {project.tags.length > 0 &&
+            project.tags.map((tag, index) => {
               return (
                 <View key={index} style={$tagContainer}>
                   <Text style={{ color: colors.palette.grey }}>{tag}</Text>
                 </View>
               )
             })}
-            <View style={{flex: 1}}>
-              <Text style={$price} size="md">$ 600</Text>
-            </View>
         </View>
+      </View>
+      <View style={$footer}>
+        <Button text="Make a proposition" style={$button} onPress={makeAProposition} />
+        <Button
+          text="Make a order"
+          style={[$button, { marginTop: spacing.extraSmall }]}
+          preset="reversed"
+          onPress={makeAProposition}
+        />
       </View>
     </Screen>
   )
@@ -68,18 +86,8 @@ const $screenContainer: ViewStyle = {
   flex: 1,
 }
 
-const $deadlineBanner: ViewStyle = {
-  justifyContent: "center",
-  paddingVertical: spacing.medium,
-  alignItems: "center",
-  backgroundColor: colors.palette.primary,
-}
-
-const $deadlineText: TextStyle = {
-  color: colors.palette.white,
-}
-
 const $bodyContainer: ViewStyle = {
+  flex: 1,
   padding: spacing.medium,
 }
 
@@ -111,7 +119,15 @@ const $tagContainer: ViewStyle = {
   borderRadius: 4,
 }
 
-const $price: TextStyle = {
-  alignSelf: "flex-end",
-  color: colors.palette.primary,
+const $footer: ViewStyle = {
+  alignSelf: "center",
+  marginBottom: spacing.medium,
+  width: "100%",
+}
+
+const $button: ViewStyle = {
+  marginHorizontal: 52,
+  paddingVertical: spacing.medium,
+  justifyContent: "center",
+  borderRadius: 30,
 }
