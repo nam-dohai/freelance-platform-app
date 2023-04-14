@@ -9,6 +9,7 @@ import { HomeScreen } from 'app/screens/home'
 import { SearchScreen } from 'app/screens/search'
 import { Octicons, Ionicons, FontAwesome5 } from '@expo/vector-icons'
 import { MessagesScreen } from 'app/screens/chat'
+import { ProfileScreen } from 'app/screens/profile'
 
 
 export type RootTabParamList = {
@@ -81,7 +82,7 @@ function RootTabNavigator() {
 
       <Tab.Screen
         name="Profile"
-        component={HomeScreen}
+        component={ProfileScreen}
         options={{
           tabBarShowLabel: false,
           tabBarIcon: ({ focused }) => (

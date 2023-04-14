@@ -6,6 +6,7 @@ import { ProjectDetailScreen } from "app/screens/search/ProjectDetailScreen"
 import RootTabNavigator from "./RootTabNavigator"
 import { PropositionScreen } from "app/screens/search/PropositionScreen"
 import { ChatScreen } from "app/screens/chat/ChatScreen"
+import { AllReviewScreen } from "app/screens/profile/AllReviewScreen"
 
 export type AuthenticatedNavigatorParamList = {
   RootTab: undefined
@@ -40,7 +41,17 @@ export type AuthenticatedNavigatorParamList = {
     }
   }
   Chat: {
-    conversation: any;
+    conversation: any
+  }
+  AllReview: {
+    reviews: Array<{
+      id: string
+      rate: number
+      author: {
+        name: string
+      }
+      comment: string
+    }>
   }
 }
 
@@ -55,6 +66,7 @@ function AuthenticatedNavigator() {
         <Stack.Screen name="ProjectDetail" component={ProjectDetailScreen} />
         <Stack.Screen name="Proposition" component={PropositionScreen} />
         <Stack.Screen name="Chat" component={ChatScreen} />
+        <Stack.Screen name="AllReview" component={AllReviewScreen} />
       </Stack.Navigator>
     </View>
   )
