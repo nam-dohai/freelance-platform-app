@@ -1,6 +1,7 @@
 import { Screen, Text } from "app/components"
 import { RootTabScreenProps, navigate } from "app/navigators"
 import { colors, spacing } from "app/theme"
+import { observer } from "mobx-react-lite"
 import React, { FC } from "react"
 import { Image, ImageStyle, View, ViewStyle, TouchableOpacity } from "react-native"
 import { Rating } from "react-native-ratings"
@@ -48,7 +49,7 @@ const user = {
   ],
 }
 
-export const ProfileScreen: FC<RootTabScreenProps<"Profile">> = function ProfileScreen(_props) {
+export const ProfileScreen: FC<RootTabScreenProps<"Profile">> = observer(function ProfileScreen(_props) {
   return (
     <Screen preset="fixed" safeAreaEdges={["top"]} contentContainerStyle={$screenContainer}>
       <View style={$bodyContainer}>
@@ -132,7 +133,7 @@ export const ProfileScreen: FC<RootTabScreenProps<"Profile">> = function Profile
       </View>
     </Screen>
   )
-}
+})
 
 const $screenContainer: ViewStyle = {
   flex: 1,

@@ -1,4 +1,4 @@
-import React, { FC } from "react"
+import React, { FC, useEffect } from "react"
 import {
   TouchableOpacity,
   View,
@@ -8,6 +8,9 @@ import { Header, Screen, Text } from "../../components"
 import { colors, spacing } from "../../theme"
 import { RootTabScreenProps,  } from "app/navigators"
 import ActiveProject from "./components/ActiveProject"
+import { api } from "app/services/api"
+import { useStores } from "app/models"
+import { observer } from "mobx-react-lite"
 
 const activeProjects = [
   {
@@ -28,7 +31,7 @@ const activeProjects = [
   },
 ]
 
-export const HomeScreen: FC<RootTabScreenProps<"Home">> =
+export const HomeScreen: FC<RootTabScreenProps<"Home">> = observer(
   function HomeScreen(_props) {
     return (
       <Screen preset="fixed" safeAreaEdges={["top"]} contentContainerStyle={$screenContainer}>
@@ -55,7 +58,7 @@ export const HomeScreen: FC<RootTabScreenProps<"Home">> =
         </View>
       </Screen>
     )
-  }
+  })
 
 const $screenContainer: ViewStyle = {
   flex: 1,

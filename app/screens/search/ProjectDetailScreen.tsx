@@ -2,12 +2,13 @@ import { StackScreenProps } from "@react-navigation/stack"
 import { Button, Header, Screen, Text } from "app/components"
 import { AuthenticatedNavigatorParamList, goBack, navigate } from "app/navigators"
 import { colors, spacing } from "app/theme"
+import { observer } from "mobx-react-lite"
 import React, { FC, useCallback } from "react"
 import { Image, ImageStyle, TextStyle, View, ViewStyle } from "react-native"
 
 export const ProjectDetailScreen: FC<
   StackScreenProps<AuthenticatedNavigatorParamList, "ProjectDetail">
-> = function ProjectDetailScreen({ route }) {
+> = observer(function ProjectDetailScreen({ route }) {
   const { params } = route
   const { project } = params
 
@@ -80,7 +81,7 @@ export const ProjectDetailScreen: FC<
       </View>
     </Screen>
   )
-}
+})
 
 const $screenContainer: ViewStyle = {
   flex: 1,

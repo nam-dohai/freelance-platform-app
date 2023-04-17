@@ -25,6 +25,10 @@ export const AuthenticationStoreModel = types
     setAuthEmail(value: string) {
       store.authEmail = value.replace(/ /g, "")
     },
+    logIn(data: {email:string; token: string}) {
+      this.setAuthEmail(data.email);
+      this.setAuthToken(data.token);
+    },
     logout() {
       store.authToken = undefined
       store.authEmail = ""

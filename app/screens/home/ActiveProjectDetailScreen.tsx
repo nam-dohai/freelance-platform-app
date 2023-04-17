@@ -4,10 +4,11 @@ import { Header, Screen, Text } from "app/components"
 import { colors, spacing } from "app/theme"
 import { AuthenticatedNavigatorParamList, goBack } from "app/navigators"
 import { StackScreenProps } from "@react-navigation/stack"
+import { observer } from "mobx-react-lite"
 
 export const ActiveProjectDetailScreen: FC<
   StackScreenProps<AuthenticatedNavigatorParamList, "ActiveProjectDetail">
-> = function ActiveProjectDetailScreen({ route }) {
+> = observer(function ActiveProjectDetailScreen({ route }) {
   const { params } = route
   const { project } = params
 
@@ -62,7 +63,7 @@ export const ActiveProjectDetailScreen: FC<
       </View>
     </Screen>
   )
-}
+})
 
 const $screenContainer: ViewStyle = {
   flex: 1,

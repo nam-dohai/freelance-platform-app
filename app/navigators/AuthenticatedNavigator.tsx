@@ -7,6 +7,7 @@ import RootTabNavigator from "./RootTabNavigator"
 import { PropositionScreen } from "app/screens/search/PropositionScreen"
 import { ChatScreen } from "app/screens/chat/ChatScreen"
 import { AllReviewScreen } from "app/screens/profile/AllReviewScreen"
+import { observer } from "mobx-react-lite"
 
 export type AuthenticatedNavigatorParamList = {
   RootTab: undefined
@@ -72,7 +73,7 @@ function AuthenticatedNavigator() {
   )
 }
 
-export default AuthenticatedNavigator
+export default observer(AuthenticatedNavigator);
 
 const $container: ViewStyle = {
   flex: 1,

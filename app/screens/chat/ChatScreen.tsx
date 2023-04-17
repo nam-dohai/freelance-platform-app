@@ -2,6 +2,7 @@ import { StackScreenProps } from "@react-navigation/stack"
 import { Header, Screen, Text } from "app/components"
 import { AuthenticatedNavigatorParamList, goBack } from "app/navigators"
 import { colors, spacing } from "app/theme"
+import { observer } from "mobx-react-lite"
 import React, { FC } from "react"
 import { FlatList, Image, ImageStyle, View, ViewStyle } from "react-native"
 
@@ -53,7 +54,7 @@ const data = [
 ]
 
 export const ChatScreen: FC<StackScreenProps<AuthenticatedNavigatorParamList, "Chat">> =
-  function ChatScreen() {
+  observer(function ChatScreen() {
     // const { params } = route
     // const { conversation } = params
     // console.log(conversation);
@@ -95,7 +96,7 @@ export const ChatScreen: FC<StackScreenProps<AuthenticatedNavigatorParamList, "C
         />
       </Screen>
     )
-  }
+  })
 
 const $screenContainer: ViewStyle = {
   flex: 1,

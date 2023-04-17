@@ -81,6 +81,56 @@ export class Api {
       return { kind: "bad-data" }
     }
   }
+
+  async login({email, password}): Promise<{kind: "ok"; tokenData: {expiresIn: number; token: string}} | GeneralApiProblem> {
+    const response: ApiResponse<ApiFeedResponse> = await this.apisauce.post("login", {
+      email,
+      password
+    })
+    
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response)
+      if (problem) return problem
+    }
+
+    try {
+      const rawData = response.data
+
+      // This is where we transform the data into the shape we expect for our MST model.
+      const tokenData: Array<{expressIn: string; token:string;}> = rawData.tokenData;
+
+      return { kind: "ok", tokenData }
+    } catch (e) {
+      if (__DEV__) {
+        console.tron.error(`Bad data: ${e.message}\n${response.data}`, e.stack)
+      }
+      return { kind: "bad-data" }
+    }
+  }
+
+  async getAllUser(): Promise<{kind: "ok"; users: Array<{id: string; email:string; password: string}>} | GeneralApiProblem> {
+    const response: ApiResponse<ApiFeedResponse> = await this.apisauce.get('users');
+
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response)
+      if (problem) return problem
+    }
+
+    try {
+      const rawData = response.data
+
+      // This is where we transform the data into the shape we expect for our MST model.
+      const users: Array<{id: string; email:string; password: string}> = rawData.data;
+
+      return { kind: "ok", users }
+    } catch (e) {
+      if (__DEV__) {
+        console.tron.error(`Bad data: ${e.message}\n${response.data}`, e.stack)
+      }
+      return { kind: "bad-data" }
+    }
+
+  }
   // @demo remove-block-end
 }
 

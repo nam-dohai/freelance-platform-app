@@ -10,6 +10,7 @@ import { SearchScreen } from 'app/screens/search'
 import { Octicons, Ionicons, FontAwesome5 } from '@expo/vector-icons'
 import { MessagesScreen } from 'app/screens/chat'
 import { ProfileScreen } from 'app/screens/profile'
+import { observer } from 'mobx-react-lite'
 
 
 export type RootTabParamList = {
@@ -94,7 +95,7 @@ function RootTabNavigator() {
   )
 }
 
-export default RootTabNavigator
+export default observer(RootTabNavigator)
 
 const $tabBar: ViewStyle = {
   backgroundColor: colors.palette.white,

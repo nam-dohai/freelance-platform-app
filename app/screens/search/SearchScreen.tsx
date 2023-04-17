@@ -4,6 +4,7 @@ import { colors, spacing } from "app/theme"
 import React, { FC, useCallback } from "react"
 import { View, ViewStyle, Image, ImageStyle, TextStyle, TouchableOpacity } from "react-native"
 import { AntDesign, Ionicons } from "@expo/vector-icons"
+import { observer } from "mobx-react-lite"
 
 const activeProjects = [
   {
@@ -26,7 +27,7 @@ const activeProjects = [
   },
 ]
 
-export const SearchScreen: FC<RootTabScreenProps<"Search">> = function SearchScreen(_props) {
+export const SearchScreen: FC<RootTabScreenProps<"Search">> = observer(function SearchScreen(_props) {
   const project = activeProjects[0]
 
   const openProjectDetail = useCallback((project) => {
@@ -109,7 +110,7 @@ export const SearchScreen: FC<RootTabScreenProps<"Search">> = function SearchScr
       </View>
     </Screen>
   )
-}
+})
 
 const $screenContainer: ViewStyle = {
   flex: 1,

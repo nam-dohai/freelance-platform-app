@@ -2,12 +2,13 @@ import { StackScreenProps } from "@react-navigation/stack"
 import { Button, Header, Screen, Text, TextField } from "app/components"
 import { AuthenticatedNavigatorParamList, goBack, navigate } from "app/navigators"
 import { colors, spacing } from "app/theme"
+import { observer } from "mobx-react-lite"
 import React, { FC, useCallback } from "react"
 import { Image, ImageStyle, TextStyle, View, ViewStyle } from "react-native"
 
 export const PropositionScreen: FC<
   StackScreenProps<AuthenticatedNavigatorParamList, "Proposition">
-> = function PropositionScreen({ route }) {
+> = observer(function PropositionScreen({ route }) {
   const { params } = route
   const { project } = params
 
@@ -46,7 +47,7 @@ export const PropositionScreen: FC<
       </View>
     </Screen>
   )
-}
+})
 
 const $screenContainer: ViewStyle = {
   flex: 1,

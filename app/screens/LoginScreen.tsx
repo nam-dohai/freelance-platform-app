@@ -5,6 +5,7 @@ import { Button, Icon, Screen, Text, TextField, TextFieldAccessoryProps } from "
 import { useStores } from "../models"
 import { AppStackScreenProps } from "../navigators"
 import { colors, spacing } from "../theme"
+import { api } from "app/services/api"
 
 interface LoginScreenProps extends AppStackScreenProps<"Login"> {}
 
@@ -21,10 +22,10 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen(_
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [attemptsCount, setAttemptsCount] = useState(0)
   const {
-    authenticationStore: { authEmail, setAuthEmail, setAuthToken, validationError },
+    authenticationStore: { authEmail, setAuthEmail, setAuthToken, validationError, logIn },
   } = useStores()
 
-  function login() {
+  async function login() {
     setIsSubmitted(true)
     setAttemptsCount(attemptsCount + 1)
 
@@ -35,9 +36,15 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen(_
     setIsSubmitted(false)
     setAuthPassword("")
     setAuthEmail("")
-
+    const response = await api.login({ email: authEmail, password: authPassword});
+    
+    if (response.kind === "ok") {
+      const tokenData = response.tokenData;
+      logIn({email: authEmail, token: tokenData.token})
+    } else {
+      alert("Đăng nhập thất bại")
+    }
     // We'll mock this with a fake token.
-    setAuthToken(String(Date.now()))
   }
 
   const PasswordRightAccessory = useMemo(
@@ -71,7 +78,7 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen(_
     >
       <Text testID="login-heading" tx="loginScreen.signUp" preset="heading" style={$signIn} />
 
-      <TextField
+      {/* <TextField
         value={firstName}
         onChangeText={setFirstName}
         containerStyle={$textField}
@@ -92,7 +99,7 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen(_
         autoCorrect={false}
         placeholderTx="loginScreen.lastName"
         onSubmitEditing={() => emailInput.current?.focus()}
-      />
+      /> */}
 
       <TextField
         ref={emailInput}

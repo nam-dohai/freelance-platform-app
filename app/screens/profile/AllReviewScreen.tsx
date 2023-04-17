@@ -2,12 +2,13 @@ import { StackScreenProps } from "@react-navigation/stack"
 import { Header, Screen, Text } from "app/components"
 import { AuthenticatedNavigatorParamList, goBack } from "app/navigators"
 import { colors, spacing } from "app/theme"
+import { observer } from "mobx-react-lite"
 import React, { FC } from "react"
 import { FlatList, View, ViewStyle } from "react-native"
 import { Rating } from "react-native-ratings"
 
 export const AllReviewScreen: FC<StackScreenProps<AuthenticatedNavigatorParamList, "AllReview">> =
-  function AllReviewScreen({ route }) {
+  observer(function AllReviewScreen({ route }) {
     const { params } = route
     const { reviews } = params
 
@@ -53,7 +54,7 @@ export const AllReviewScreen: FC<StackScreenProps<AuthenticatedNavigatorParamLis
         </View>
       </Screen>
     )
-  }
+  })
 
 const $screenContainer: ViewStyle = {
   flex: 1,

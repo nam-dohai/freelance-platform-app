@@ -4,6 +4,7 @@ import { colors, spacing } from "app/theme"
 import React, { FC, useCallback } from "react"
 import { FlatList, Image, ImageStyle, TouchableOpacity, View, ViewStyle } from "react-native"
 import { MaterialIcons } from "@expo/vector-icons"
+import { observer } from "mobx-react-lite"
 
 const conversations = [
   {
@@ -35,7 +36,7 @@ const conversations = [
   },
 ]
 
-export const MessagesScreen: FC<RootTabScreenProps<"Conversation">> = function MessagesScreen(_prop) {
+export const MessagesScreen: FC<RootTabScreenProps<"Conversation">> = observer(function MessagesScreen(_prop) {
   const openChat = useCallback(() => {
     navigate("Chat")
   }, [])
@@ -71,7 +72,7 @@ export const MessagesScreen: FC<RootTabScreenProps<"Conversation">> = function M
       </View>
     </Screen>
   )
-}
+})
 
 const $screenContainer: ViewStyle = {
   flex: 1,
