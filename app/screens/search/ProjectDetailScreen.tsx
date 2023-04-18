@@ -15,6 +15,14 @@ export const ProjectDetailScreen: FC<
   const makeAProposition = useCallback(() => {
     navigate("Proposition", {
       project,
+      type: "propose"
+    })
+  }, [])
+
+  const makeAOffer = useCallback(() => {
+    navigate("Proposition", {
+      project,
+      type: "offer"
     })
   }, [])
 
@@ -30,16 +38,16 @@ export const ProjectDetailScreen: FC<
         <View style={$row}>
           <Image
             source={{
-              uri: "https://raw.githubusercontent.com/Ashwinvalento/cartoon-avatar/master/lib/images/female/5.png",
+              uri: project.author.image_url,
             }}
             style={$authorImage}
           />
           <Text style={$author} size="xl" preset="bold">
-            {project.author}
+            {project.author.name}
           </Text>
         </View>
         <Text style={{ marginTop: spacing.extraLarge, color: colors.palette.grey }}>
-          Posted 8 days ago
+          Posted at {new Date(project.createdAt).toDateString()}
         </Text>
         <Text style={$title} preset="bold" size="xl">
           {project.name}
@@ -53,18 +61,18 @@ export const ProjectDetailScreen: FC<
             size="xs"
             style={{ marginTop: spacing.extraSmall, color: colors.palette.grey, flex: 1 }}
           >
-            16 propositions
+            {project.propositions.length} propositions - {project.offers.length} offers
           </Text>
           <Text size="md" style={{ color: colors.palette.primary }} preset="bold">
-            $ 2400
+            {project.price}
           </Text>
         </View>
         <View style={[$row, { marginTop: spacing.large }]}>
-          {project.tags.length > 0 &&
-            project.tags.map((tag, index) => {
+          {project.project_categories?.length > 0 &&
+            project.project_categories.map((projectCategory, index) => {
               return (
                 <View key={index} style={$tagContainer}>
-                  <Text style={{ color: colors.palette.grey }}>{tag}</Text>
+                  <Text style={{ color: colors.palette.grey }}>{projectCategory.name}</Text>
                 </View>
               )
             })}
@@ -76,7 +84,7 @@ export const ProjectDetailScreen: FC<
           text="Make a order"
           style={[$button, { marginTop: spacing.extraSmall }]}
           preset="reversed"
-          onPress={makeAProposition}
+          onPress={makeAOffer}
         />
       </View>
     </Screen>

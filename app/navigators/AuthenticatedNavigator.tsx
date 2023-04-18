@@ -8,6 +8,7 @@ import { PropositionScreen } from "app/screens/search/PropositionScreen"
 import { ChatScreen } from "app/screens/chat/ChatScreen"
 import { AllReviewScreen } from "app/screens/profile/AllReviewScreen"
 import { observer } from "mobx-react-lite"
+import { Project } from "app/interfaces/project"
 
 export type AuthenticatedNavigatorParamList = {
   RootTab: undefined
@@ -22,24 +23,11 @@ export type AuthenticatedNavigatorParamList = {
     }
   }
   ProjectDetail: {
-    project: {
-      id: string
-      name: string
-      author: string
-      description: string
-      tags: Array<string>
-      status: string
-    }
+    project: Project
   }
   Proposition: {
-    project: {
-      id: string
-      name: string
-      author: string
-      description: string
-      tags: Array<string>
-      status: string
-    }
+    project: Project
+    type: "propose" | "offer"
   }
   Chat: {
     conversation: any

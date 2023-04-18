@@ -17,6 +17,7 @@ import type {
   ApiFeedResponse, // @demo remove-current-line
 } from "./api.types"
 import type { EpisodeSnapshotIn } from "../../models/Episode" // @demo remove-current-line
+import { Project } from "app/interfaces/project"
 
 /**
  * Configuring the apisauce instance.
@@ -123,6 +124,29 @@ export class Api {
       const users: Array<{id: string; email:string; password: string}> = rawData.data;
 
       return { kind: "ok", users }
+    } catch (e) {
+      if (__DEV__) {
+        console.tron.error(`Bad data: ${e.message}\n${response.data}`, e.stack)
+      }
+      return { kind: "bad-data" }
+    }
+  }
+
+  async getAllProjects(): Promise<{kind: "ok"; projects: Array<Project>} | GeneralApiProblem> {
+    const response: ApiResponse<ApiFeedResponse> = await this.apisauce.get('projects');
+
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response)
+      if (problem) return problem
+    }
+
+    try {
+      const rawData = response.data
+
+      // This is where we transform the data into the shape we expect for our MST model.
+      const projects: Array<Project> = rawData.data;
+
+      return { kind: "ok", projects }
     } catch (e) {
       if (__DEV__) {
         console.tron.error(`Bad data: ${e.message}\n${response.data}`, e.stack)

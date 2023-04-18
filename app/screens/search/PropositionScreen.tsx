@@ -10,9 +10,15 @@ export const PropositionScreen: FC<
   StackScreenProps<AuthenticatedNavigatorParamList, "Proposition">
 > = observer(function PropositionScreen({ route }) {
   const { params } = route
-  const { project } = params
+  const { project, type } = params
 
   const sendProposition = useCallback(() => {
+    //TODO: Make Proposition API
+    navigate("Search")
+  }, [])
+
+  const sendOffer = useCallback(() => {
+    //TODO: Make Offer API
     navigate("Search")
   }, [])
   return (
@@ -27,23 +33,23 @@ export const PropositionScreen: FC<
         <View style={$row}>
           <Image
             source={{
-              uri: "https://raw.githubusercontent.com/Ashwinvalento/cartoon-avatar/master/lib/images/female/5.png",
+              uri: project.author.image_url,
             }}
             style={$authorImage}
           />
           <Text style={$author} size="xl" preset="bold">
-            {project.author}
+            {project.author.name}
           </Text>
         </View>
 
         <Text preset="bold" size="xl" style={{ marginTop: spacing.huge }}>
-          Make a proposition
+          Make a {type === "propose" ? "Proposition" : "Offer"}
         </Text>
         <TextField inputWrapperStyle={$message} placeholder="Message" />
       </View>
 
       <View style={$footer}>
-        <Button text="Send" style={$button} onPress={sendProposition} />
+        <Button text="Send" style={$button} onPress={type === "propose" ? sendProposition : sendOffer} />
       </View>
     </Screen>
   )

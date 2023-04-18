@@ -70,11 +70,6 @@ interface AppProps {
  */
 function App(props: AppProps) {
   const { hideSplashScreen } = props
-  const {
-    initialNavigationState,
-    onNavigationStateChange,
-    isRestored: isNavigationStateRestored,
-  } = useNavigationPersistence(storage, NAVIGATION_PERSISTENCE_KEY)
 
   const [areFontsLoaded] = useFonts(customFontsToLoad)
 
@@ -94,7 +89,7 @@ function App(props: AppProps) {
   // In iOS: application:didFinishLaunchingWithOptions:
   // In Android: https://stackoverflow.com/a/45838109/204044
   // You can replace with your own loading component if you wish.
-  if (!rehydrated || !isNavigationStateRestored || !areFontsLoaded) return null
+  if (!rehydrated || !areFontsLoaded) return null
 
   const linking = {
     prefixes: [prefix],
@@ -107,8 +102,6 @@ function App(props: AppProps) {
       <ErrorBoundary catchErrors={Config.catchErrors}>
         <AppNavigator
           linking={linking}
-          initialState={initialNavigationState}
-          onStateChange={onNavigationStateChange}
         />
       </ErrorBoundary>
     </SafeAreaProvider>

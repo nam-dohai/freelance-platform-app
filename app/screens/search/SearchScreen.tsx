@@ -1,36 +1,40 @@
 import { Header, Screen, Text, TextField } from "app/components"
 import { RootTabScreenProps, navigate } from "app/navigators"
 import { colors, spacing } from "app/theme"
-import React, { FC, useCallback } from "react"
-import { View, ViewStyle, Image, ImageStyle, TextStyle, TouchableOpacity } from "react-native"
+import React, { FC, useCallback, useState, useEffect } from "react"
+import {
+  View,
+  ViewStyle,
+  Image,
+  ImageStyle,
+  TextStyle,
+  TouchableOpacity,
+  FlatList,
+} from "react-native"
 import { AntDesign, Ionicons } from "@expo/vector-icons"
 import { observer } from "mobx-react-lite"
+import { Project } from "app/interfaces/project"
+import { api } from "app/services/api"
 
-const activeProjects = [
-  {
-    id: "1",
-    name: "Create an application",
-    author: "Arlene Mckinney",
-    description:
-      "We are a young startup from Paris looking for a designer who can help us design a tech oriented application. We are open to proposals.",
-    status: "Active",
-    tags: ["UX/UI", "DESIGN", "FIGMA", "PHOTOSHOP"],
-  },
-  {
-    id: "2",
-    name: "Need a new logo",
-    author: "Amel Rio",
-    description:
-      "I need a designer for my new website. The project is just at the beginning and I need wireframes before I start coding the website. I only want wireframes and I don’t want prototype or UI design.",
-    status: "Pending",
-    tags: [],
-  },
-]
+export const SearchScreen: FC<RootTabScreenProps<"Search">> = observer(function SearchScreen(
+  _props,
+) {
+  const [projects, setProjects] = useState<Array<Project>>()
 
-export const SearchScreen: FC<RootTabScreenProps<"Search">> = observer(function SearchScreen(_props) {
-  const project = activeProjects[0]
+  useEffect(() => {
+    const fetchAllProjects = async () => {
+      const res = await api.getAllProjects()
+      if (res.kind === "ok") {
+        const allProjects = res.projects
+        setProjects(allProjects)
+      } else {
+        console.log("Cannot get projects")
+      }
+    }
+    fetchAllProjects()
+  }, [])
 
-  const openProjectDetail = useCallback((project) => {
+  const openProjectDetail = useCallback((project: Project) => {
     navigate("ProjectDetail", { project })
   }, [])
   return (
@@ -58,55 +62,75 @@ export const SearchScreen: FC<RootTabScreenProps<"Search">> = observer(function 
             Filters
           </Text>
         </View>
+        {projects?.length && projects?.length > 0 && (
+          <FlatList
+            data={projects}
+            renderItem={({ item }) => {
+              const project = item
+              
+              return (
+                <TouchableOpacity style={$cardContainer} onPress={() => openProjectDetail(project)}>
+                  <View style={$authorContainer}>
+                    <Image
+                      source={{
+                        uri: project.author.image_url,
+                      }}
+                      style={$authorImage}
+                    />
+                    <Text style={$author} size="xl" preset="subheading">
+                      {project.author.name}
+                    </Text>
+                  </View>
+                  <View style={$projectContainer}>
+                    <Text style={{ color: colors.palette.grey }}>
+                      Posted at {new Date(project.createdAt).toTimeString()}
+                    </Text>
 
-        <TouchableOpacity style={$cardContainer} onPress={() => openProjectDetail(project)}>
-          <View style={$authorContainer}>
-            <Image
-              source={{
-                uri: "https://raw.githubusercontent.com/Ashwinvalento/cartoon-avatar/master/lib/images/female/5.png",
-              }}
-              style={$authorImage}
-            />
-            <Text style={$author} size="xl" preset="subheading">
-              {project.author}
-            </Text>
-          </View>
-          <View style={$projectContainer}>
-            <Text style={{ color: colors.palette.grey }}>Posted 3 days ago</Text>
+                    <Text size="xl" preset="bold" style={{ marginTop: spacing.large }}>
+                      {project.name}
+                    </Text>
+                    <Text size="lg" style={{ marginTop: spacing.large }} preset="subheading">
+                      Description
+                    </Text>
+                    <Text
+                      size="md"
+                      style={{ marginTop: spacing.extraSmall, color: colors.palette.grey }}
+                    >
+                      {project.description}
+                    </Text>
 
-            <Text size="xl" preset="bold" style={{ marginTop: spacing.large }}>
-              {project.name}
-            </Text>
-            <Text size="lg" style={{ marginTop: spacing.large }} preset="subheading">
-              Description
-            </Text>
-            <Text size="md" style={{ marginTop: spacing.extraSmall, color: colors.palette.grey }}>
-              {project.description}
-            </Text>
-
-            <View style={$row}>
-              <Text
-                size="xs"
-                style={{ marginTop: spacing.extraSmall, color: colors.palette.grey, flex: 1 }}
-              >
-                16 propositions
-              </Text>
-              <Text size="md" style={{ color: colors.palette.primary }} preset="bold">
-                $ 2400
-              </Text>
-            </View>
-            <View style={[$row, { marginTop: spacing.large }]}>
-              {project.tags.length > 0 &&
-                project.tags.map((tag, index) => {
-                  return (
-                    <View key={index} style={$tagContainer}>
-                      <Text style={{ color: colors.palette.grey }}>{tag}</Text>
+                    <View style={$row}>
+                      <Text
+                        size="xs"
+                        style={{
+                          marginTop: spacing.extraSmall,
+                          color: colors.palette.grey,
+                          flex: 1,
+                        }}
+                      >
+                        {project.propositions.length} propositions - {project.offers.length} offers
+                      </Text>
+                      <Text size="md" style={{ color: colors.palette.primary }} preset="bold">
+                        {project.price}
+                      </Text>
                     </View>
-                  )
-                })}
-            </View>
-          </View>
-        </TouchableOpacity>
+                    <View style={[$row, { marginTop: spacing.large }]}>
+                      {project.project_categories.length > 0 &&
+                        project.project_categories.map((projectCategories, index) => {
+                          return (
+                            <View key={index} style={$tagContainer}>
+                              <Text style={{ color: colors.palette.grey }}>{projectCategories.name}</Text>
+                            </View>
+                          )
+                        })}
+                    </View>
+                  </View>
+                </TouchableOpacity>
+              )
+            }}
+            keyExtractor={(item) => item.id}
+          />
+        )}
       </View>
     </Screen>
   )
