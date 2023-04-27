@@ -1,4 +1,5 @@
 import { Screen, Text } from "app/components"
+import { useStores } from "app/models"
 import { RootTabScreenProps, navigate } from "app/navigators"
 import { colors, spacing } from "app/theme"
 import { observer } from "mobx-react-lite"
@@ -6,50 +7,52 @@ import React, { FC } from "react"
 import { Image, ImageStyle, View, ViewStyle, TouchableOpacity } from "react-native"
 import { Rating } from "react-native-ratings"
 
-const user = {
-  image:
-    "https://raw.githubusercontent.com/Ashwinvalento/cartoon-avatar/master/lib/images/female/5.png",
-  name: "Dustin Warren",
-  title: "UX Designer",
-  description:
-    "My name is Dustin, I’m a young designer from Dublin. I practice for 4 years now, worked with small and big agencies.",
-  reviews: [
-    {
-      id: "1",
-      rate: 4,
-      author: {
-        name: "Kyle Wilson",
-      },
-      comment: "Awesome job!",
-    },
-    {
-      id: "2",
-      rate: 5,
-      author: {
-        name: "Rosemary Copler",
-      },
-      comment: "Alex is a very great designer, having a lot of positive energy with him!",
-    },
-    {
-      id: "3",
-      rate: 5,
-      author: {
-        name: "Soham Pena",
-      },
-      comment: "Working with Alex is always a pleasure! He has limitless capabilities!",
-    },
-    {
-      id: "4",
-      rate: 5,
-      author: {
-        name: "Calvin Watson",
-      },
-      comment: "I recommend Alex. Always impress by his work and his speed!",
-    },
-  ],
-}
+// const user = {
+//   image:
+//     "https://raw.githubusercontent.com/Ashwinvalento/cartoon-avatar/master/lib/images/female/5.png",
+//   name: "Dustin Warren",
+//   title: "UX Designer",
+//   description:
+//     "My name is Dustin, I’m a young designer from Dublin. I practice for 4 years now, worked with small and big agencies.",
+//   reviews: [
+//     {
+//       id: "1",
+//       rate: 4,
+//       author: {
+//         name: "Kyle Wilson",
+//       },
+//       comment: "Awesome job!",
+//     },
+//     {
+//       id: "2",
+//       rate: 5,
+//       author: {
+//         name: "Rosemary Copler",
+//       },
+//       comment: "Alex is a very great designer, having a lot of positive energy with him!",
+//     },
+//     {
+//       id: "3",
+//       rate: 5,
+//       author: {
+//         name: "Soham Pena",
+//       },
+//       comment: "Working with Alex is always a pleasure! He has limitless capabilities!",
+//     },
+//     {
+//       id: "4",
+//       rate: 5,
+//       author: {
+//         name: "Calvin Watson",
+//       },
+//       comment: "I recommend Alex. Always impress by his work and his speed!",
+//     },
+//   ],
+// }
 
 export const ProfileScreen: FC<RootTabScreenProps<"Profile">> = observer(function ProfileScreen(_props) {
+  const { userProfileStore } = useStores();
+  const userProfile = userProfileStore.data;
   return (
     <Screen preset="fixed" safeAreaEdges={["top"]} contentContainerStyle={$screenContainer}>
       <View style={$bodyContainer}>
@@ -59,16 +62,16 @@ export const ProfileScreen: FC<RootTabScreenProps<"Profile">> = observer(functio
         <View style={[$row, { marginTop: spacing.large }]}>
           <Image
             source={{
-              uri: "https://raw.githubusercontent.com/Ashwinvalento/cartoon-avatar/master/lib/images/female/5.png",
+              uri: userProfile.image_url,
             }}
             style={$authorImage}
           />
           <View style={{ marginLeft: spacing.extraSmall }}>
             <Text size="xl" preset="heading">
-              {user.name}
+              {userProfile.name}
             </Text>
             <Text size="sm" style={{ color: colors.palette.grey }}>
-              {user.title}
+              {userProfile.title}
             </Text>
           </View>
         </View>
@@ -78,11 +81,11 @@ export const ProfileScreen: FC<RootTabScreenProps<"Profile">> = observer(functio
             Description
           </Text>
           <Text size="sm" style={{ color: colors.palette.grey, maxWidth: "88%" }}>
-            {user.description}
+            {userProfile.description}
           </Text>
         </View>
 
-        <View style={{ marginTop: spacing.extraLarge }}>
+        {/* <View style={{ marginTop: spacing.extraLarge }}>
           <View style={$row}>
             <Text size="lg" preset="subheading" style={{ flex: 1 }}>
               {user.reviews.length} reviews
@@ -122,7 +125,7 @@ export const ProfileScreen: FC<RootTabScreenProps<"Profile">> = observer(functio
               </TouchableOpacity>
             </View>
           </View>
-        </View>
+        </View> */}
 
         <View style={{ marginTop: spacing.extraLarge }}>
           <Text size="lg" preset="heading">

@@ -23,6 +23,7 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen(_
   const [attemptsCount, setAttemptsCount] = useState(0)
   const {
     authenticationStore: { authEmail, setAuthEmail, setAuthToken, validationError, logIn },
+    userProfileStore,
   } = useStores()
 
   async function login() {
@@ -41,6 +42,7 @@ export const LoginScreen: FC<LoginScreenProps> = observer(function LoginScreen(_
     if (response.kind === "ok") {
       const tokenData = response.tokenData;
       logIn({email: authEmail, token: tokenData.token})
+      userProfileStore.init();
     } else {
       alert("Đăng nhập thất bại")
     }

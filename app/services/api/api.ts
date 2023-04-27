@@ -18,6 +18,7 @@ import type {
 } from "./api.types"
 import type { EpisodeSnapshotIn } from "../../models/Episode" // @demo remove-current-line
 import { Project } from "app/interfaces/project"
+import { UserProfile } from "app/interfaces/userProfile"
 
 /**
  * Configuring the apisauce instance.
@@ -83,12 +84,15 @@ export class Api {
     }
   }
 
-  async login({email, password}): Promise<{kind: "ok"; tokenData: {expiresIn: number; token: string}} | GeneralApiProblem> {
+  async login({
+    email,
+    password,
+  }): Promise<{ kind: "ok"; tokenData: { expiresIn: number; token: string } } | GeneralApiProblem> {
     const response: ApiResponse<ApiFeedResponse> = await this.apisauce.post("login", {
       email,
-      password
+      password,
     })
-    
+
     if (!response.ok) {
       const problem = getGeneralApiProblem(response)
       if (problem) return problem
@@ -98,7 +102,7 @@ export class Api {
       const rawData = response.data
 
       // This is where we transform the data into the shape we expect for our MST model.
-      const tokenData: Array<{expressIn: string; token:string;}> = rawData.tokenData;
+      const tokenData: Array<{ expressIn: string; token: string }> = rawData.tokenData
 
       return { kind: "ok", tokenData }
     } catch (e) {
@@ -109,8 +113,11 @@ export class Api {
     }
   }
 
-  async getAllUser(): Promise<{kind: "ok"; users: Array<{id: string; email:string; password: string}>} | GeneralApiProblem> {
-    const response: ApiResponse<ApiFeedResponse> = await this.apisauce.get('users');
+  async getAllUser(): Promise<
+    | { kind: "ok"; users: Array<{ id: string; email: string; password: string }> }
+    | GeneralApiProblem
+  > {
+    const response: ApiResponse<ApiFeedResponse> = await this.apisauce.get("users")
 
     if (!response.ok) {
       const problem = getGeneralApiProblem(response)
@@ -121,7 +128,7 @@ export class Api {
       const rawData = response.data
 
       // This is where we transform the data into the shape we expect for our MST model.
-      const users: Array<{id: string; email:string; password: string}> = rawData.data;
+      const users: Array<{ id: string; email: string; password: string }> = rawData.data
 
       return { kind: "ok", users }
     } catch (e) {
@@ -132,8 +139,8 @@ export class Api {
     }
   }
 
-  async getAllProjects(): Promise<{kind: "ok"; projects: Array<Project>} | GeneralApiProblem> {
-    const response: ApiResponse<ApiFeedResponse> = await this.apisauce.get('projects');
+  async getAllProjects(): Promise<{ kind: "ok"; projects: Array<Project> } | GeneralApiProblem> {
+    const response: ApiResponse<ApiFeedResponse> = await this.apisauce.get("projects")
 
     if (!response.ok) {
       const problem = getGeneralApiProblem(response)
@@ -144,7 +151,7 @@ export class Api {
       const rawData = response.data
 
       // This is where we transform the data into the shape we expect for our MST model.
-      const projects: Array<Project> = rawData.data;
+      const projects: Array<Project> = rawData.data
 
       return { kind: "ok", projects }
     } catch (e) {
@@ -153,7 +160,33 @@ export class Api {
       }
       return { kind: "bad-data" }
     }
+  }
 
+  async getUserProfileByUserId(
+    userId: string,
+  ): Promise<{ kind: "ok"; userProfile: UserProfile } | GeneralApiProblem> {
+    const response: ApiResponse<ApiFeedResponse> = await this.apisauce.get(`users_profile`, {
+      id: userId
+    });
+
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response)
+      if (problem) return problem
+    }
+
+    try {
+      const rawData = response.data
+
+      // This is where we transform the data into the shape we expect for our MST model.
+      const userProfile: UserProfile = rawData.data
+
+      return { kind: "ok", userProfile }
+    } catch (e) {
+      if (__DEV__) {
+        console.tron.error(`Bad data: ${e.message}\n${response.data}`, e.stack)
+      }
+      return { kind: "bad-data" }
+    }
   }
   // @demo remove-block-end
 }
